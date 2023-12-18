@@ -27,6 +27,7 @@ public class WebSecurityConfig {
 
         UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin")).roles("ADMIN")
                 .build();
+
         return new InMemoryUserDetailsManager(peter,admin);
     }
 
@@ -34,4 +35,5 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
 }
