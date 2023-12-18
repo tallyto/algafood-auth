@@ -31,7 +31,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .secret(passwordEncoder.encode("web123"))
                     .authorizedGrantTypes("password", "refresh_token")
                     .scopes("write", "read")
-                    .accessTokenValiditySeconds(60 * 60 * 6)
+                    .accessTokenValiditySeconds(6 * 60 * 60) // 6 horas de validade do token de acesso. (em segundos)
+                    .refreshTokenValiditySeconds(12 * 60 * 60) // 12 horas de validade do token de refresh. (em segundos)
                 .and()
                     .withClient("admin")
                     .secret(passwordEncoder.encode("admin"));
@@ -42,7 +43,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+                .reuseRefreshTokens(false); // para que o token de refresh seja gerado apenas uma vez (não pode ser usado mais de uma vez)
     }
 
     @Override
