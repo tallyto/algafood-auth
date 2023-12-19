@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    PasswordEncoder  passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -38,6 +38,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .secret(passwordEncoder.encode("faturamento123"))
                     .authorizedGrantTypes("client_credentials")
                     .scopes("write", "read")
+                .and()
+                    .withClient("foodnanalytics")
+                    .secret(passwordEncoder.encode("food123"))
+                    .authorizedGrantTypes("authorization_code")
+                    .scopes("write", "read")
+                    .redirectUris("http://localhost:3001/")
+                // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodnanalytics&state=abc&redirect_uri=http://localhost:3001/
                 .and()
                     .withClient("admin")
                     .secret(passwordEncoder.encode("admin"));
