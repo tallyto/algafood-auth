@@ -39,12 +39,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .authorizedGrantTypes("client_credentials")
                     .scopes("write", "read")
                 .and()
-                    .withClient("foodnanalytics")
+                    .withClient("foodanalytics")
                     .secret(passwordEncoder.encode("food123"))
                     .authorizedGrantTypes("authorization_code")
                     .scopes("write", "read")
-                    .redirectUris("http://localhost:3001/")
-                // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodnanalytics&state=abc&redirect_uri=http://localhost:3001/
+                    .redirectUris("http://localhost:4000")
+                // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodanalytics&state=abc&redirect_uri=http://localhost:4000
                 .and()
                     .withClient("admin")
                     .secret(passwordEncoder.encode("admin"));
