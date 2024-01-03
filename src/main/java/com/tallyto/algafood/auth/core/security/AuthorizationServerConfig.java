@@ -46,6 +46,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .redirectUris("http://localhost:4000")
                 // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodanalytics&state=abc&redirect_uri=http://localhost:4000
                 .and()
+                    .withClient("webadmin")
+                    .authorizedGrantTypes("implicit")
+                    .scopes("write","read")
+                    .redirectUris("http://localhost:4000")
+                // http://localhost:3002/oauth/authorize?response_type=token&client_id=webadmin&state=abc&redirect_uri=http://localhost:4000
+                .and()
                     .withClient("admin")
                     .secret(passwordEncoder.encode("admin"));
 
