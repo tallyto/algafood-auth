@@ -48,7 +48,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .authorizedGrantTypes("authorization_code")
                     .scopes("write", "read")
                     .redirectUris("http://localhost:4000")
-                // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodanalytics&state=abc&redirect_uri=http://localhost:4000
+                // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodanalytics&state=abc&redirect_uri=http://localhost:4000 -> authorization code
+                // http://localhost:3002/oauth/authorize?response_type=code&client_id=foodanalytics&redirect_uri=http://localhost:4000&code_challenge=teste123&code_challenge_method=plain -> authorization code PKCE plain
                 .and()
                     .withClient("webadmin")
                     .authorizedGrantTypes("implicit")
@@ -72,7 +73,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.checkTokenAccess("permitAll()");
+        security.checkTokenAccess("permitAll()")
+                .allowFormAuthenticationForClients();
     }
 
     private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
