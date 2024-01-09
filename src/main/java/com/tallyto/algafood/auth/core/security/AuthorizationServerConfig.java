@@ -3,6 +3,7 @@ package com.tallyto.algafood.auth.core.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.util.Arrays;
 
@@ -68,11 +70,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        accessTokenConverter.setSigningKey("df5f8fdd4c0db669bb2d7546584a2ff08694fe29b93426ebbfcf135161029b94");
+        var accessTokenConverter = new JwtAccessTokenConverter();
+
+        /*
+         * Cria tokens JWT com assinatura HMACSHA256
+         * accessTokenConverter.setSigningKey("sua_chave_aqui");
+         */
+
+        // Gera tokens JWT com assinatura SHA256
+
+        var jksResource = new ClassPathResource("keystores/algafood.jks");
+        var keyStorePassword = "123456";
+        var keyPairAlias = "algafood";
+
+        var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePassword.toCharArray());
+        var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
+
+        accessTokenConverter.setKeyPair(keyPair);
 
         return accessTokenConverter;
     }
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
