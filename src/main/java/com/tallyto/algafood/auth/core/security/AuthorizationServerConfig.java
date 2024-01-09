@@ -1,5 +1,6 @@
 package com.tallyto.algafood.auth.core.security;
 
+import com.tallyto.algafood.auth.core.properties.JwtKeyStoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    JwtKeyStoreProperties jwtKeyStoreProperties;
 
 
     @Override
@@ -79,9 +83,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         // Gera tokens JWT com assinatura SHA256
 
-        var jksResource = new ClassPathResource("keystores/algafood.jks");
-        var keyStorePassword = "123456";
-        var keyPairAlias = "algafood";
+        var jksResource = new ClassPathResource(jwtKeyStoreProperties.getPath());
+        var keyStorePassword = jwtKeyStoreProperties.getPassword();
+        var keyPairAlias = jwtKeyStoreProperties.getKeypairAlias();
 
         var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePassword.toCharArray());
         var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
