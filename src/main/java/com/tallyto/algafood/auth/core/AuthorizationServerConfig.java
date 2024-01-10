@@ -1,4 +1,4 @@
-package com.tallyto.algafood.auth.core.security;
+package com.tallyto.algafood.auth.core;
 
 import com.tallyto.algafood.auth.core.properties.JwtKeyStoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;

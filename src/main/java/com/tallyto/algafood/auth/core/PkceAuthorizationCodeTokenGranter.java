@@ -1,4 +1,4 @@
-package com.tallyto.algafood.auth.core.security;
+package com.tallyto.algafood.auth.core;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
